@@ -12,18 +12,18 @@ import com.local.dev.config.ConfigReader;
 import com.local.dev.model.ParsedVoiceCommand;
 import com.local.dev.model.VoiceCommand;
 import com.local.dev.serdes.JsonSerde;
-import com.example.voice.service.SpeechToTextService;
+import com.example.voice.service.ISpeechToTextService;
 import com.example.voice.service.TranslateService;
 
 public class VoiceCommandParserTopology {
     public static final Integer MINIMUM_BYTE_LENGTH = 10;
     
-    public final SpeechToTextService speachToTextService;
+    public final ISpeechToTextService speachToTextService;
     public final TranslateService translateService;
     public final Double certaintyThreshold;
 
     
-    public VoiceCommandParserTopology(SpeechToTextService speachToTextService, TranslateService translateService, Double certaintyThreshold) {
+    public VoiceCommandParserTopology(ISpeechToTextService speachToTextService, TranslateService translateService, Double certaintyThreshold) {
         this.speachToTextService = speachToTextService;
         this.translateService = translateService;
         this.certaintyThreshold = certaintyThreshold;

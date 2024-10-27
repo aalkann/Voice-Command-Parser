@@ -27,13 +27,13 @@ import com.local.dev.config.ConfigReader;
 import com.local.dev.model.ParsedVoiceCommand;
 import com.local.dev.model.VoiceCommand;
 import com.local.dev.serdes.JsonSerde;
-import com.example.voice.service.SpeechToTextService;
+import com.example.voice.service.ISpeechToTextService;
 import com.example.voice.service.TranslateService;
 
 @ExtendWith(MockitoExtension.class)
 public class VoiceCommandParserTopologyTest {
     @Mock
-    private SpeechToTextService speechToTextService;
+    private ISpeechToTextService speechToTextService;
     @Mock
     private TranslateService translateService;
     private Double CERTAINTY_THRESHOLD = 0.9;

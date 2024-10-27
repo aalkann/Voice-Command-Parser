@@ -1,6 +1,7 @@
 com\example\voice\service\MockTranslateClient.class
 com\example\voice\VoiceCommandParserApp.class
-com\example\voice\service\SpeechToTextService.class
+com\example\voice\service\ISpeechToTextService.class
 com\example\voice\service\MockSttClient.class
 com\example\voice\VoiceCommandParserTopology.class
+com\example\voice\service\SpechToTextClient.class
 com\example\voice\service\TranslateService.class

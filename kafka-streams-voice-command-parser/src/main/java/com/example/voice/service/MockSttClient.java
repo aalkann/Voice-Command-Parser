@@ -3,7 +3,7 @@ package com.example.voice.service;
 import com.local.dev.model.ParsedVoiceCommand;
 import com.local.dev.model.VoiceCommand;
 
-public class MockSttClient implements SpeechToTextService{
+public class MockSttClient implements ISpeechToTextService{
 
     @Override
     public ParsedVoiceCommand speechToText(VoiceCommand value) {
