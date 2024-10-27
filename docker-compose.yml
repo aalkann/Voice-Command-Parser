@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    hostname: kafka
+    environment:  
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092'
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:29093'
+      KAFKA_LISTENERS: 'PLAINTEXT://kafka:29092,CONTROLLER://kafka:29093,PLAINTEXT_HOST://0.0.0.0:9092'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      CLUSTER_ID: 'hVTrpso8QlqvrCy46ctYBA'
+    ports:
+      - "9092:9092" 
+    volumes:
+      - C:\Software\kafka\kafka-volume:/var/lib/kafka/data
+    networks:
+      - kafka-network
+
+  kafka-create-topics:
+    image: confluentinc/cp-kafka:latest
+    hostname: kafka-create-topics
+    depends_on:
+      - kafka
+    command: >
+      bash -c "
+        sleep 10; 
+        kafka-topics --create --topic voice-commands --bootstrap-server kafka:29092 --replication-factor 1 --partitions 1;
+        kafka-topics --create --topic recognized-commands --bootstrap-server kafka:29092 --replication-factor 1 --partitions 1;
+        kafka-topics --create --topic unrecognized-commands --bootstrap-server kafka:29092 --replication-factor 1 --partitions 1;
+      "
+    networks:
+      - kafka-network
+
+  voice-command-parser-app:
+    build: kafka-streams-voice-command-parser\.
+    depends_on:
+      - kafka
+    networks:
+      - kafka-network
+
+  voice-command-consumer-app:
+    build: kafka-streams-voice-command-consumer\.
+    depends_on:
+      - voice-command-parser-app
+    networks:
+      - kafka-network
+
+  voice-command-producer-app:
+    build: kafka-streams-voice-command-producer\.
+    depends_on:
+      - voice-command-consumer-app
+    networks:
+      - kafka-network
+      
+networks:
+  kafka-network:
+    driver: bridge 
