@@ -6,7 +6,7 @@ This is a project that java, kafka and docker technologies are used together.
 
 Here I try to demonstrate how to use java, kafka and docker to process a stream of voice data.
 
-We use AssemblyAI library to convert auido data from byte array to text
+We use AssemblyAI library to convert auido data from byte array to text (You should change the API key inside SpechToTextClient.java. Existing one won't work)
 
 **NOTE**: Translate service are just mock classes. and Google Cloud Translation API can be used instead of mock class.
 
